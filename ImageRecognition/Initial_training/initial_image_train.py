@@ -3,7 +3,7 @@ import tensorflow as tf
 import os
 from keras.models import Sequential
 from keras.layers import Conv2D, Conv3D, MaxPooling2D, Flatten, Dense, Dropout
-from get_dataset import get_dataset
+from ../utils/get_dataset import get_dataset
 tf.compat.v1.enable_eager_execution()
 
 
@@ -65,8 +65,8 @@ valid_list = get_file_list(valid_dir)
 
 # Tuning and training params:
 AUTOTUNE = tf.data.experimental.AUTOTUNE
-BATCH_SIZE = 100
-IMAGE_SIZE = [100, 100, 3]
+BATCH_SIZE = 10
+IMAGE_SIZE = [512, 512, 3]
 keras_batch_size = BATCH_SIZE
 learning_rate = 0.0001
 epochs = 1
@@ -79,4 +79,4 @@ valid_dataset = get_dataset(test_list, batch_size=BATCH_SIZE, image_size=IMAGE_S
 test_dataset = get_dataset(test_list, labeled=False, batch_size=BATCH_SIZE, image_size=IMAGE_SIZE)
 model = get_model()
 model.fit(train_dataset, validation_data=valid_dataset, batch_size=keras_batch_size, epochs=epochs)
-model.save('./csgid-image-rec.h5')
+model.save('../Models/0000csgid-image-rec.h5')
