@@ -1,3 +1,5 @@
+# ***Assumes at least 150gb secondary storage available***
+
 mkdir ./MARCO
 cd ./MARCO
 curl --progress-bar https://marco.ccr.buffalo.edu/data/archive/test-jpg-tfrecords.tar --output ./test.tar &
@@ -8,4 +10,4 @@ tar -xvf ./train.tar &
 wait
 rm ./test.tar
 rm ./train.tar
-exit
+python3 ./Initial_training/Initial_image_train.py
