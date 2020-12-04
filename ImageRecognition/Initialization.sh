@@ -10,4 +10,4 @@ tar -xvf ./train.tar &
 wait
 rm ./test.tar
 rm ./train.tar
-python3 ./Initial_training/Initial_image_train.py
+python3 ./Initial_training/initial_image_train.py

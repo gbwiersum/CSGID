@@ -4,6 +4,7 @@ import os
 from keras.models import Sequential
 from keras.layers import Conv2D, Conv3D, MaxPooling2D, Flatten, Dense, Dropout
 from ../utils/get_dataset import get_dataset
+from ../utils/inception_v4 import create_model
 tf.compat.v1.enable_eager_execution()
 
 
@@ -32,27 +33,28 @@ feature_description = {
 
 
 def get_model():
-    callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3, min_delta=1)
-    model = Sequential()
-    model.add(Conv2D(64, (3, 3), activation='relu', input_shape=(IMAGE_SIZE)))
-    model.add(MaxPooling2D((2, 2)))
-    model.add(Conv2D(64, (3, 3), activation='relu'))
-    model.add(MaxPooling2D((2, 2)))
-    model.add(Conv2D(64, (3, 3), activation='relu'))
-    model.add(Flatten())
-    model.add(Dense(1000, activation='relu'))
-    model.add(Dropout(0.3))
-    model.add(Dense(640, activation='relu'))
-    model.add(Dropout(0.2))
-    model.add(Dense(38, activation='relu'))
-    model.add(Dense(4, activation='softmax'))
-    # if Binary = True or something...
-    model.add(Dense(1, activation='sigmoid'))
-
-    model.compile(optimizer='adam',
-                  loss=tf.keras.losses.binary_crossentropy,
-                  metrics=['accuracy'])
+    model = create_model(num_classes=4)
+    model.compile(optimizer='adam', loss=tf.keras.losses.categorical_crossentropy,
+                    metrics=tf.keras.metrics.categorical_accuracy)
     return model
+
+    """
+      callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3, min_delta = 1)
+
+      model = Sequential()
+      model.add(Conv2D(64, (3, 3), activation='relu', input_shape=(IMAGE_SIZE)))
+      model.add(MaxPooling2D((2, 2)))
+      model.add(Conv2D(64, (3, 3), activation='relu'))
+      model.add(MaxPooling2D((2, 2)))
+      model.add(Conv2D(64, (3, 3), activation='relu'))
+      model.add(Flatten())
+      model.add(Dense(1000, activation= 'relu'))
+      model.add(Dropout(0.3))
+      model.add(Dense(640, activation = 'relu'))
+      model.add(Dropout(0.2))
+      model.add(Dense(38, activation = 'relu'))
+      model.add(Dense(4, activation = 'softmax'))
+    """
 
 
 train_dir = './train-jpg/'
