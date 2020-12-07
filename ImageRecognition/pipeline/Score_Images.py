@@ -3,10 +3,11 @@ import os
 from keras.models import  load_model
 import pandas as pd
 from datetime import date
-from ./Image_getter import Image_getter
-from ./make_prediction import make_prediction
+from ImageRecognition.pipeline.Image_getter import Image_getter
+from ImageRecognition.pipeline.make_prediction import make_prediction
 
-def Score_Images():
+
+def score_images():
   #Load model with highest index value
   model_list = os.walk('../SavedModels')
   model = load_model(model_list[-1][-1])

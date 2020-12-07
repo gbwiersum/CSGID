@@ -1,10 +1,11 @@
- # Much of the code used here is based on: https://keras.io/examples/keras_recipes/tfrecord/
+# Much of the code used here is based on: https://keras.io/examples/keras_recipes/tfrecord/
 import tensorflow as tf
 import os
 from keras.models import Sequential
 from keras.layers import Conv2D, Conv3D, MaxPooling2D, Flatten, Dense, Dropout
-from ../utils/get_dataset import get_dataset
-from ../utils/inception_v4 import create_model
+from ImageRecognition.utils.get_dataset import get_dataset
+from ImageRecognition.utils.inception_v4 import create_model
+
 tf.compat.v1.enable_eager_execution()
 
 
@@ -14,6 +15,7 @@ def get_file_list(directory):
     for absolute_path in list(os.walk(directory))[0][2]:
         file_list.append(directory + absolute_path)
     return file_list
+
 
 # Features as provided by MARCO
 feature_description = {
@@ -35,26 +37,8 @@ feature_description = {
 def get_model():
     model = create_model(num_classes=4)
     model.compile(optimizer='adam', loss=tf.keras.losses.categorical_crossentropy,
-                    metrics=tf.keras.metrics.categorical_accuracy)
+                  metrics=tf.keras.metrics.categorical_accuracy)
     return model
-
-    """
-      callback = tf.keras.callbacks.EarlyStopping(monitor='loss', patience=3, min_delta = 1)
-
-      model = Sequential()
-      model.add(Conv2D(64, (3, 3), activation='relu', input_shape=(IMAGE_SIZE)))
-      model.add(MaxPooling2D((2, 2)))
-      model.add(Conv2D(64, (3, 3), activation='relu'))
-      model.add(MaxPooling2D((2, 2)))
-      model.add(Conv2D(64, (3, 3), activation='relu'))
-      model.add(Flatten())
-      model.add(Dense(1000, activation= 'relu'))
-      model.add(Dropout(0.3))
-      model.add(Dense(640, activation = 'relu'))
-      model.add(Dropout(0.2))
-      model.add(Dense(38, activation = 'relu'))
-      model.add(Dense(4, activation = 'softmax'))
-    """
 
 
 train_dir = './train-jpg/'
@@ -70,7 +54,7 @@ AUTOTUNE = tf.data.experimental.AUTOTUNE
 BATCH_SIZE = 10
 IMAGE_SIZE = [512, 512, 3]
 keras_batch_size = BATCH_SIZE
-learning_rate = 0.0001
+learning_rate = 0.095
 epochs = 1
 
 print("Train Files: ", len(train_list))
